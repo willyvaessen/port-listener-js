@@ -1,0 +1,29 @@
+body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        input {
+            padding: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 8px 16px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #output {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+.output {
+    border: 1px solid red;
+    width: 640px;
+    height: 480px;
+    background-color: black;
+    color: limegreen;
+}

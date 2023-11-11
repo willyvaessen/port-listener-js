@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulletin Board System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        input {
+            padding: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 8px 16px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #output {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .output {
+            border: 1px solid red;
+            width: 640px;
+            height: 480px;
+            background-color: black;
+            color: limegreen;
+        }
+
+        .input-line {
+            width: 95%;
+
+        }
+    </style>
+    <!--    <link rel="stylesheet" href="bbs.css">-->
+</head>
+<body>
+<h1>Bulletin Board System</h1>
+<div class="terminal-container">
+    <div class="output">
+        <p id="output"></p>
+    </div>
+    <form action="" id="form">
+            <label for="name">>></label>
+    <input type="text" id="name" class="input-line" placeholder="Your Name">
+    <button id="submitBtn" onclick="submitName()">Submit</button>
+
+    </form>
+</div>
+
+
+<script>
+// Set focus on the input field when the page loads
+  document.getElementById('name').focus();
+
+  function submitOnEnter(event) {
+    // Check if the Enter key is pressed (key code 13)
+    if (event.key === 'Enter') {
+      // Trigger the submit event of the form containing the input field
+      document.getElementById('form').submit();
+    }
+  }
+
+  function submitName() {
+    const nameInput = document.getElementById('name');
+    const outputParagraph = document.getElementById('output');
+
+    const name = nameInput.value.trim();
+
+    if (name !== '') {
+      // Display the user's name in the paragraph element
+      outputParagraph.textContent = `Hello, ${name}! This is your Bulletin Board System over HTTP.`;
+    } else {
+      // Handle the case where the input is empty
+      outputParagraph.textContent = 'Please enter your name.';
+    }
+  }
+</script>
+</body>
+</html>
