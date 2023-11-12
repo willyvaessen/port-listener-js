@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movable Windows with Title Bars</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="window" id="window1">
+  <div class="title-bar">
+    Window 1
+  </div>
+  <div class="content">
+    <h2>Window 1</h2>
+    <p>This is the content of Window 1.</p>
+  </div>
+</div>
+
+<div class="window" id="window2">
+  <div class="title-bar">
+    Window 2
+  </div>
+  <div class="content">
+    <h2>Window 2</h2>
+    <p>This is the content of Window 2.</p>
+  </div>
+</div>
+
+<div class="window" id="window3">
+  <div class="title-bar">
+    Window 3
+  </div>
+  <div class="content">
+    <h2>Window 3</h2>
+    <p>This is the content of Window 3.</p>
+  </div>
+</div>
+
+<div class="window" id="window4">
+  <div class="title-bar">
+    Window 4
+  </div>
+  <div class="content">
+    <h2>Window 4</h2>
+    <p>This is the content of Window 4.</p>
+  </div>
+</div>
+
+  <div class="warning" id="warningMessage">
+    Your screen is too narrow or too short. Please use a larger screen for a better experience.
+  </div>
+
+  <script src="script.js" rev="0.02"></script>
+<script>
+    // Call the initializeWindows function after adding new windows
+    function initializeWindows() {
+      arrangeWindows();
+      checkScreenSize();
+    }
+
+    // Initial call on window load
+    window.addEventListener('load', initializeWindows);
+  </script>
+</body>
+</html>

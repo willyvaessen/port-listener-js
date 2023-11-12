@@ -1,0 +1,38 @@
+body {
+  margin: 0;
+}
+
+.window {
+  border: 1px solid #000;
+  min-width: 350px; /* Set the minimum width */
+  max-width: 900px; /* Set the maximum width */
+  width: 40%;
+  height: 40vh;
+  position: absolute;
+  background-color: #fff;
+}
+
+.title-bar {
+  background-color: #ddd;
+  padding: 5px;
+  cursor: move;
+  user-select: none;
+}
+
+.warning {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffcccb;
+  padding: 10px;
+  border: 1px solid #ff5e5b;
+  z-index: 2; /* Display the warning above windows */
+  display: none;
+}
+
+@media (max-width: 500px) {
+  .window {
+    width: 80%; /* Adjust the width for smaller screens */
+  }
+}
