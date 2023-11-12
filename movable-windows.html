@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movable Windows with Title Bars</title>
+  <style>
+    body {
+      margin: 0;
+    }
+
+    .window {
+      border: 1px solid #000;
+      min-width: 350px; /* Set the minimum width */
+      max-width: 900px; /* Set the maximum width */
+      width: 40%;
+      height: 40vh;
+      position: absolute;
+      background-color: #fff;
+    }
+
+    .title-bar {
+      background-color: #ddd;
+      padding: 5px;
+      cursor: move;
+      user-select: none;
+    }
+
+    .warning {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #ffcccb;
+      padding: 10px;
+      border: 1px solid #ff5e5b;
+      z-index: 2; /* Display the warning above windows */
+      display: none;
+    }
+
+    @media (max-width: 500px) {
+      .window {
+        width: 80%; /* Adjust the width for smaller screens */
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="window" id="window1">
+    <div class="title-bar" ontouchstart="startDrag(event, 'window1')" onmousedown="startDrag(event, 'window1')">
+      Window 1
+    </div>
+    <div class="content">
+      <h2>Window 1</h2>
+      <p>This is the content of Window 1.</p>
+    </div>
+  </div>
+
+  <div class="window" id="window2">
+    <div class="title-bar" ontouchstart="startDrag(event, 'window2')" onmousedown="startDrag(event, 'window2')">
+      Window 2
+    </div>
+    <div class="content">
+      <h2>Window 2</h2>
+      <p>This is the content of Window 2.</p>
+    </div>
+  </div>
+
+  <div class="warning" id="warningMessage">
+    Your screen is too narrow or too short. Please use a larger screen for a better experience.
+  </div>
+
+<script>
+  function startDrag(e, windowId) {
+    e.preventDefault();
+    let offsetX, offsetY;
+
+    if (e.type === 'mousedown') {
+      offsetX = e.clientX;
+      offsetY = e.clientY;
+    } else if (e.type === 'touchstart' && e.touches.length === 1) {
+      offsetX = e.touches[0].clientX;
+      offsetY = e.touches[0].clientY;
+    } else {
+      return; // Do nothing if multiple touches or other events
+    }
+
+    const window = document.getElementById(windowId);
+
+    // Bring the clicked window to the front
+    const windows = document.querySelectorAll('.window');
+    windows.forEach(w => (w.style.zIndex = 0));
+    window.style.zIndex = 1;
+
+    function dragMove(moveEvent) {
+      let newX, newY;
+
+      if (moveEvent.type === 'mousemove') {
+        newX = offsetX - moveEvent.clientX;
+        newY = offsetY - moveEvent.clientY;
+      } else if (moveEvent.type === 'touchmove' && moveEvent.touches.length === 1) {
+        newX = offsetX - moveEvent.touches[0].clientX;
+        newY = offsetY - moveEvent.touches[0].clientY;
+      } else {
+        return; // Do nothing if multiple touches or other events
+      }
+
+      offsetX = moveEvent.type === 'mousemove' ? moveEvent.clientX : moveEvent.touches[0].clientX;
+      offsetY = moveEvent.type === 'mousemove' ? moveEvent.clientY : moveEvent.touches[0].clientY;
+
+      const rect = window.getBoundingClientRect();
+
+      const newLeft = rect.left - newX;
+      const newTop = rect.top - newY;
+
+      // Check if new position is within the screen bounds
+      if (newLeft >= 0 && newTop >= 0) {
+        window.style.left = newLeft + 'px';
+        window.style.top = newTop + 'px';
+      }
+    }
+
+    function dragEnd() {
+      document.removeEventListener('mousemove', dragMove);
+      document.removeEventListener('touchmove', dragMove);
+      document.removeEventListener('mouseup', dragEnd);
+      document.removeEventListener('touchend', dragEnd);
+    }
+
+    document.addEventListener('mousemove', dragMove);
+    document.addEventListener('touchmove', dragMove, { passive: false });
+    document.addEventListener('mouseup', dragEnd);
+    document.addEventListener('touchend', dragEnd);
+  }
+
+  // Arrange the windows next to each other after the page has fully loaded
+  window.addEventListener('load', function () {
+    arrangeWindows();
+    checkScreenSize();
+  });
+
+  function arrangeWindows() {
+    const windows = document.querySelectorAll('.window');
+    let left = 0;
+
+    windows.forEach((window) => {
+      window.style.left = left + 'px';
+      left += window.offsetWidth + 10; // Adjust the spacing as needed
+    });
+  }
+
+  function checkScreenSize() {
+    const warningMessage = document.getElementById('warningMessage');
+    const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    const screenHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+    if (screenWidth < 350 || screenHeight < 500) {
+      warningMessage.style.display = 'block';
+    } else {
+      warningMessage.style.display = 'none';
+    }
+  }
+
+  // Update warning on window resize
+  window.addEventListener('resize', function () {
+    arrangeWindows();
+    checkScreenSize();
+  });
+</script>
+
+
+</body>
+</html>
